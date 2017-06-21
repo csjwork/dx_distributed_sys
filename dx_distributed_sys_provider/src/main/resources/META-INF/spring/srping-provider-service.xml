@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+  <context:annotation-config/>
+  <context:component-scan base-package="com.moke.dx.provider"/>
+
+  <!-- alibaba dobbo protocol setting -->
+  <dubbo:application name="provider-service"/>
+  <!-- <dubbo:protocol name="dubbo" port="20880" heartbeat="60000"/> -->
+
+  <dubbo:protocol name="dubbo" port="20880" serialization="jackson" />
+  <!-- <dubbo:registry address="multicast://224.5.6.7:1234"/> -->
+  <dubbo:registry address="${dubbo.registry.address}"/>
+  <!-- monitor server's adress -->
+  <dubbo:monitor address="${dubbo.monitor.address}"/>
+
+  <!-- provider -->
+  <dubbo:service ref="providerService" interface="com.moke.dx.service.firstcenter.IFirstService" protocol="dubbo"
+    timeout="3000" version="01.00.00" />
+  <bean id="providerService" class="com.moke.dx.provider.ProviderServiceImpl"/>
+
+</beans>

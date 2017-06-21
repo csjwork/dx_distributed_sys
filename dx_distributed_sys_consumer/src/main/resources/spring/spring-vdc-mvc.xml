@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd 
+          	http://www.springframework.org/schema/context 
+           	http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/mvc
+    		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    		http://www.springframework.org/schema/aop
+     		http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<context:component-scan base-package="com.moke.dx.consumer" >
+    	 <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>  
+         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/> 
+     </context:component-scan> 
+	<!-- 开启mvc注解 -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<ref bean="stringHttpMessageConverter" />
+			<ref bean="mappingJackson2HttpMessageConverter" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 定义首页 -->
+	<!-- <mvc:view-controller path="/" view-name="forward:/index"/> -->
+	<!-- 定义直接显示的JSP -->
+	<!-- <mvc:view-controller path="/" view-name="index"/> -->
+
+	<bean id="stringHttpMessageConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mappingJackson2HttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=UTF-8</value>
+				<value>application/x-www-form-urlencoded;charset=UTF-8</value>
+				<value>text/html;charset=UTF-8</value>
+				<value>text/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>  
+
